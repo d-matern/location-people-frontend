@@ -1,10 +1,10 @@
 import axiosInstance from '@/api';
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 export const useAuthStore = defineStore('authStore', () => {
   const token = ref(localStorage.getItem('token'));
-  const user = ref<{ username: string; age: number } | null>(null);
+  const user = ref<{ id: number; username: string; age: number } | null>(null);
 
   const isAuth = computed(() => !!token.value);
 
@@ -39,6 +39,12 @@ export const useAuthStore = defineStore('authStore', () => {
     user.value = null;
     localStorage.removeItem('token');
   }
+
+  onMounted(() => {
+    if (token.value) {
+      fetchUser();
+    }
+  });
 
   return {
     user,

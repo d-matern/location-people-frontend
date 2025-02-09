@@ -22,7 +22,7 @@ const handleSubmit = async () => {
     age: '',
   };
 
-  router.push('/');
+  router.push('/location');
 };
 </script>
 

@@ -19,7 +19,7 @@ const handleSubmit = async () => {
     password: '',
   };
 
-  router.push('/');
+  router.push('/location');
 };
 </script>
 
