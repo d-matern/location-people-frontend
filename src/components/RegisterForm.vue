@@ -1,19 +1,28 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth/store';
+
+const router = useRouter();
+const authStore = useAuthStore();
 
 const formData = ref({
-  login: '',
+  username: '',
   password: '',
-  rePassword: '',
+  age: '',
 });
 
-const handleSubmit = () => {
-  console.log(formData.value);
+const handleSubmit = async () => {
+  await authStore.register(formData.value.username, formData.value.password, +formData.value.age);
+  await authStore.login(formData.value.username, formData.value.password);
+
   formData.value = {
-    login: '',
+    username: '',
     password: '',
-    rePassword: '',
+    age: '',
   };
+
+  router.push('/');
 };
 </script>
 
@@ -24,9 +33,9 @@ const handleSubmit = () => {
   >
     <h2 class="mb-5">Регистрация</h2>
 
-    <label for="login" class="w-full flex flex-col items-start gap-0.5">
+    <label for="username" class="w-full flex flex-col items-start gap-0.5">
       <span>Логин</span>
-      <input id="login" class="w-full" v-model="formData.login" name="login" />
+      <input id="username" class="w-full" v-model="formData.username" name="username" />
     </label>
 
     <label for="password" class="w-full flex flex-col items-start gap-0.5">
@@ -40,14 +49,17 @@ const handleSubmit = () => {
       />
     </label>
 
-    <label for="rePassword" class="w-full flex flex-col items-start gap-0.5">
-      <span>Повторить пароль</span>
+    <label for="age" class="w-full flex flex-col items-start gap-0.5">
+      <span>Возраст</span>
       <input
-        id="rePassword"
-        v-model="formData.rePassword"
+        id="age"
+        v-model="formData.age"
         class="w-full"
-        type="password"
-        name="rePassword"
+        type="number"
+        name="age"
+        min="0"
+        max="150"
+        step="1"
       />
     </label>
 
