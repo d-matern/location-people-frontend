@@ -10,7 +10,8 @@ const locationStore = useLocationStore();
 
     <ul>
       <li v-for="user in locationStore.nearbyUsers" :key="user.id">
-        ID: {{ user.id }} ({{ user.lat.toFixed(4) }}, {{ user.lng.toFixed(4) }})
+        <strong>username:</strong> {{ user.username }} <strong>age:</strong> {{ user.age }}
+        <strong>location:</strong> ({{ user.lat.toFixed(4) }}, {{ user.lng.toFixed(4) }})
       </li>
     </ul>
   </div>
