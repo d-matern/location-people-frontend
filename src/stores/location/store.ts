@@ -45,7 +45,7 @@ export const useLocationStore = defineStore('locationStore', () => {
       return;
     }
 
-    socket.value = io(import.meta.env.VITE_APP_BASE_URL);
+    socket.value = io(import.meta.env.VITE_APP_BASE_URL_WS);
 
     socket.value.on('connect', () => {
       console.log('Connected');
