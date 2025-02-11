@@ -14,6 +14,7 @@ export const useLocationStore = defineStore('locationStore', () => {
   const position = ref<Position | null>(null);
   const nearbyUsers = ref<LocationDto[]>([]);
   const socket = ref<Socket | null>(null);
+  const RADIUS = 500000; // радиус поиска в м
 
   const updateLocation = () => {
     if (!navigator.geolocation) {
@@ -53,8 +54,11 @@ export const useLocationStore = defineStore('locationStore', () => {
       if (auth.user?.id) {
         socket.value?.emit(
           'nearbyUsers',
-          auth.user.id,
-          (response: LocationDto[]) => (nearbyUsers.value = response),
+          { userId: auth.user.id, radius: RADIUS },
+          (response: LocationDto[]) => {
+            console.log(response);
+            nearbyUsers.value = response;
+          },
         );
       }
     });

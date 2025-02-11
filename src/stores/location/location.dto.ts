@@ -5,10 +5,11 @@ export interface LocationDto {
   lastName: string;
   gender: string;
   birthDate: Date;
-  avatar: string | null;
   age: number;
   lat: number;
   lng: number;
+  distance: number;
+  avatar: string | null;
   vk: string | null;
   instagram: string | null;
   telegram: string | null;
