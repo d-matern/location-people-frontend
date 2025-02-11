@@ -5,13 +5,26 @@ const locationStore = useLocationStore();
 </script>
 
 <template>
-  <div>
+  <div class="p-5">
     <h3>Ближайшие пользователи в радиусе 5км:</h3>
 
     <ul>
-      <li v-for="user in locationStore.nearbyUsers" :key="user.id">
-        <strong>username:</strong> {{ user.username }} <strong>age:</strong> {{ user.age }}
-        <strong>location:</strong> ({{ user.lat.toFixed(4) }}, {{ user.lng.toFixed(4) }})
+      <li v-for="user in locationStore.nearbyUsers" :key="user.id" class="p-3 rounded-sm shadow">
+        <div><b>username:</b> {{ user.username }}</div>
+        <div><b>Имя:</b> {{ user.firstName }}</div>
+        <div><b>Фамилия:</b> {{ user.lastName }}</div>
+        <div><b>Пол:</b> {{ user.gender === 'male' ? 'Мужской' : 'Женский' }}</div>
+        <div><b>Возраст:</b> {{ user.age }}</div>
+        <div>
+          <b>Местоположение:</b>
+          <a
+            :href="`https://yandex.by/maps/?ll=${user.lng}%2C${user.lat}&z=10`"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Yandex карты
+          </a>
+        </div>
       </li>
     </ul>
   </div>

@@ -4,7 +4,7 @@ import LoginForm from '@/components/LoginForm.vue';
 
 <template>
   <main class="w-full h-full flex flex-col items-center justify-center gap-10">
-    <h1>Приветствуем в приложении People Location</h1>
+    <h1>Приветствуем в приложении Link Up</h1>
 
     <LoginForm />
   </main>

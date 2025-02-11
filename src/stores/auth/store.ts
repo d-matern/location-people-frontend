@@ -1,15 +1,17 @@
 import axiosInstance from '@/api';
 import { defineStore } from 'pinia';
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
+import type { UserDto } from './user.dto';
+import type { RegisterDto } from './register.dto';
 
 export const useAuthStore = defineStore('authStore', () => {
   const token = ref(localStorage.getItem('token'));
-  const user = ref<{ id: number; username: string; age: number } | null>(null);
+  const user = ref<UserDto | null>(null);
 
   const isAuth = computed(() => !!token.value);
 
-  const register = async (username: string, password: string, age: number) => {
-    await axiosInstance.post('/auth/register', { username, password, age });
+  const register = async (payload: RegisterDto) => {
+    await axiosInstance.post('/auth/register', payload);
   };
 
   const login = async (username: string, password: string) => {
@@ -40,11 +42,9 @@ export const useAuthStore = defineStore('authStore', () => {
     localStorage.removeItem('token');
   }
 
-  onMounted(() => {
-    if (token.value) {
-      fetchUser();
-    }
-  });
+  function isLoggedIn() {
+    return isAuth.value;
+  }
 
   return {
     user,
@@ -54,5 +54,6 @@ export const useAuthStore = defineStore('authStore', () => {
     login,
     fetchUser,
     logout,
+    isLoggedIn,
   };
 });
