@@ -21,7 +21,7 @@ const locationStore = useLocationStore();
         <div>
           <b>Местоположение:</b>
           <a
-            :href="`https://yandex.by/maps/?ll=${user.lng}%2C${user.lat}&mode=routes&rtext=${authStore.user?.lat}%2C${authStore.user?.lng}~${authStore.user?.lat}%2C${authStore.user?.lng}&rtt=auto&ruri=~&z=10`"
+            :href="`https://yandex.by/maps/?ll=${authStore.user?.lng}%2C${authStore.user?.lat}&mode=routes&rtext=${authStore.user?.lat}%2C${authStore.user?.lng}~${user.lat}%2C${user.lng}&rtt=auto&ruri=~&z=10`"
             target="_blank"
             rel="noopener noreferrer"
           >
