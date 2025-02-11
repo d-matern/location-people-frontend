@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth/store';
 
+const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 
@@ -19,7 +20,8 @@ const handleSubmit = async () => {
     password: '',
   };
 
-  router.push('/location');
+  const redirectPath = route.query.redirect?.toString() || '/location';
+  router.push(redirectPath);
 };
 </script>
 
