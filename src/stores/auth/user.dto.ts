@@ -1,5 +1,5 @@
 export interface UserDto {
-  id: string;
+  id: number;
   username: string;
   firstName: string;
   lastName: string;
@@ -8,6 +8,7 @@ export interface UserDto {
   age: number;
   lat: number;
   lng: number;
+  isOnline: boolean;
   avatar: string | null;
   phone: string | null;
   vk: string | null;
