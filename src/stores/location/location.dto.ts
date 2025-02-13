@@ -1,5 +1,5 @@
 export interface LocationDto {
-  id: string;
+  id: number;
   username: string;
   firstName: string;
   lastName: string;
@@ -9,6 +9,7 @@ export interface LocationDto {
   lat: number;
   lng: number;
   distance: number;
+  isOnline: boolean;
   avatar: string | null;
   vk: string | null;
   instagram: string | null;
