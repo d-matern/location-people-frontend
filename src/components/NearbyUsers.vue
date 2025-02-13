@@ -1,9 +1,23 @@
 <script setup lang="ts">
+import { onMounted, onUnmounted } from 'vue';
 import { useAuthStore } from '@/stores/auth/store';
 import { useLocationStore } from '@/stores/location/store';
+import { socket } from '@/socket';
+import { storeToRefs } from 'pinia';
 
 const authStore = useAuthStore();
-const locationStore = useLocationStore();
+const { nearbyUsers } = storeToRefs(useLocationStore());
+const { connectSocket, disconnectSocket, bindEvents } = useLocationStore();
+
+socket.off(); // удалить все существующие прослушиватели (в случае горячей перезагрузки)
+bindEvents();
+
+onMounted(() => {
+  connectSocket();
+});
+onUnmounted(() => {
+  disconnectSocket();
+});
 </script>
 
 <template>
@@ -11,7 +25,10 @@ const locationStore = useLocationStore();
     <h3>Ближайшие пользователи в радиусе 500км:</h3>
 
     <ul>
-      <li v-for="user in locationStore.nearbyUsers" :key="user.id" class="p-3 rounded-sm shadow">
+      <li v-for="user in nearbyUsers" :key="user.id" class="p-3 rounded-sm shadow">
+        <div v-if="user.isOnline" class="text-teal-600">
+          <b>Онлайн</b>
+        </div>
         <div><b>username:</b> {{ user.username }}</div>
         <div><b>Имя:</b> {{ user.firstName }}</div>
         <div><b>Фамилия:</b> {{ user.lastName }}</div>
