@@ -7,11 +7,11 @@ defineProps<{
 
 <template>
   <p
-    class="p-3 text-center border rounded-2xl"
+    class="w-full px-2 py-0.5 text-xs text-center border rounded-md"
     :class="
       type === 'success'
-        ? 'text-teal-500 border-teal-500 bg-teal-300'
-        : 'text-red-500 border-red-500 bg-red-300'
+        ? 'text-teal-600 border-teal-600 bg-teal-200'
+        : 'text-red-600 border-red-600 bg-red-200'
     "
   >
     {{ text }}
