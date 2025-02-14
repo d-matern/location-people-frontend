@@ -2,16 +2,18 @@
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
+import type { SignInDto } from '@/shared/api/models';
+
 import { fetchCurrentUser, fetchSignIn, logout } from '@/shared/api';
 import { useAuthStore } from '@/shared/models';
 import { useUserStore } from '@/shared/models/useUserStore';
+import { LableWrapper, InputField, ButtonElevated, RegularLink, ServerMessage } from '@/shared/ui';
 
-import type { SignInDto } from '@/shared/api/models';
-
-import ServerMessage from '@/shared/ui/ServerMessage.vue';
 import SignTitle from './SignTitle.vue';
 import SignContainer from './SignContainer.vue';
 import SignForm from './SignForm.vue';
+import SignSubtitle from './SignSubtitle.vue';
+import SignDescription from './SignDescription.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -58,28 +60,24 @@ const handleSubmit = async () => {
   <SignContainer>
     <SignTitle />
 
-    <SignForm title="Аутентификация" @submit.prevent="handleSubmit">
-      <label for="username" class="w-full flex flex-col items-start gap-0.5">
-        <span>Логин</span>
-        <input id="username" class="w-full" v-model="formData.username" name="username" />
-      </label>
+    <SignDescription />
 
-      <label for="password" class="w-full flex flex-col items-start gap-0.5">
-        <span>Пароль</span>
-        <input
-          id="password"
-          v-model="formData.password"
-          class="w-full"
-          type="password"
-          name="password"
-        />
-      </label>
+    <SignForm @submit.prevent="handleSubmit">
+      <SignSubtitle title="Аутентификация" />
+
+      <LableWrapper for="username" title="Логин">
+        <InputField id="username" v-model="formData.username" name="username" />
+      </LableWrapper>
+
+      <LableWrapper for="password" title="Пароль">
+        <InputField id="password" v-model="formData.password" type="password" name="password" />
+      </LableWrapper>
 
       <ServerMessage v-if="authStore.serverError" type="error" :text="authStore.serverError" />
 
-      <button class="mt-2" type="submit">Войти</button>
+      <ButtonElevated class="mt-2" type="submit">Войти</ButtonElevated>
 
-      <p class="mt-2">Нет аккаунт? <RouterLink to="/sign-up">Зарегистрироваться</RouterLink></p>
+      <p class="mt-2">Нет аккаунт? <RegularLink to="/sign-up">Зарегистрироваться</RegularLink></p>
     </SignForm>
   </SignContainer>
 </template>

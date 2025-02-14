@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import { fetchCurrentUser, fetchSignUp, logout } from '@/shared/api';
-import type { SignUpDto } from '@/shared/api/models';
-import { useAuthStore } from '@/shared/models';
-import { useUserStore } from '@/shared/models/useUserStore';
-import { ServerMessage } from '@/shared/ui';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+
+import type { SignUpDto } from '@/shared/api/models';
+
+import { fetchCurrentUser, fetchSignUp, logout } from '@/shared/api';
+import { useAuthStore } from '@/shared/models';
+import { useUserStore } from '@/shared/models/useUserStore';
+import { ButtonElevated, InputField, LableWrapper, RegularLink, ServerMessage } from '@/shared/ui';
+
 import SignTitle from './SignTitle.vue';
 import SignContainer from './SignContainer.vue';
 import SignForm from './SignForm.vue';
+import SignSubtitle from './SignSubtitle.vue';
+import SignDescription from './SignDescription.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -57,61 +62,63 @@ const handleSubmit = async () => {
   <SignContainer>
     <SignTitle />
 
-    <SignForm title="Регистрация" @submit.prevent="handleSubmit">
-      <label for="username" class="w-full flex flex-col items-start gap-0.5">
-        <span>Логин</span>
-        <input id="username" class="w-full" v-model="formData.username" name="username" />
-      </label>
+    <SignDescription />
 
-      <label for="firstName" class="w-full flex flex-col items-start gap-0.5">
-        <span>Имя</span>
-        <input id="firstName" class="w-full" v-model="formData.firstName" name="firstName" />
-      </label>
+    <SignForm @submit.prevent="handleSubmit">
+      <SignSubtitle title="Регистрация" />
 
-      <label for="lastName" class="w-full flex flex-col items-start gap-0.5">
-        <span>Фамилия</span>
-        <input id="lastName" class="w-full" v-model="formData.lastName" name="lastName" />
-      </label>
+      <LableWrapper for="username" title="Логин">
+        <InputField id="username" v-model="formData.username" name="username" />
+      </LableWrapper>
 
-      <div class="w-full flex flex-col items-start gap-0.5">
-        <span>Пол: {{ formData.gender }}</span>
-        <label>
-          <input v-model="formData.gender" type="radio" name="gender" value="male" />
+      <LableWrapper for="firstName" title="Имя">
+        <InputField id="firstName" v-model="formData.firstName" name="firstName" />
+      </LableWrapper>
+
+      <LableWrapper for="lastName" title="Фамилия">
+        <InputField id="lastName" v-model="formData.lastName" name="lastName" />
+      </LableWrapper>
+
+      <div class="w-full">
+        <span class="font-medium">Пол:</span>
+
+        <label class="ml-1 flex flex-row items-center gap-1 text-xs" for="male">
           Мужской
+          <input
+            id="male"
+            class="size-2.5"
+            v-model="formData.gender"
+            type="radio"
+            name="gender"
+            value="male"
+          />
         </label>
-        <label>
-          <input v-model="formData.gender" type="radio" name="gender" value="female" />
+        <label class="ml-1 flex flex-row items-center gap-1 text-xs" for="female">
           Женский
+          <input
+            id="female"
+            class="size-2.5"
+            v-model="formData.gender"
+            type="radio"
+            name="gender"
+            value="female"
+          />
         </label>
       </div>
 
-      <label for="birthDate" class="w-full flex flex-col items-start gap-0.5">
-        <span>Дата рождения</span>
-        <input
-          id="birthDate"
-          v-model="formData.birthDate"
-          class="w-full"
-          type="date"
-          name="birthDate"
-        />
-      </label>
+      <LableWrapper for="birthDate" title="Дата рождения">
+        <InputField id="birthDate" v-model="formData.birthDate" type="date" name="birthDate" />
+      </LableWrapper>
 
-      <label for="password" class="w-full flex flex-col items-start gap-0.5">
-        <span>Пароль</span>
-        <input
-          id="password"
-          v-model="formData.password"
-          class="w-full"
-          type="password"
-          name="password"
-        />
-      </label>
+      <LableWrapper for="password" title="Пароль">
+        <InputField id="password" v-model="formData.password" type="password" name="password" />
+      </LableWrapper>
 
       <ServerMessage v-if="authStore.serverError" type="error" :text="authStore.serverError" />
 
-      <button class="mt-2" type="submit">Зарегистрироваться</button>
+      <ButtonElevated class="mt-2" type="submit">Зарегистрироваться</ButtonElevated>
 
-      <p class="mt-2">Есть аккаунт? <RouterLink to="/">Войти</RouterLink></p>
+      <p class="mt-2">Есть аккаунт? <RegularLink to="/">Войти</RegularLink></p>
     </SignForm>
   </SignContainer>
 </template>
