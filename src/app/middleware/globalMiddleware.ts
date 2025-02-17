@@ -9,7 +9,6 @@ export function globalMiddleware(
   const authStore = useAuthStore();
 
   if (to.meta.requiresAuth && !authStore.isLoggedIn()) {
-    console.log(1);
     next({
       path: '/sign-in',
       query: { redirect: to.fullPath },
@@ -18,7 +17,6 @@ export function globalMiddleware(
   }
 
   if (to.meta.authRoute && authStore.isLoggedIn()) {
-    console.log(2);
     next('/profile');
     return;
   }
