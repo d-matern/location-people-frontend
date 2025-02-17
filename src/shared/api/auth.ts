@@ -23,7 +23,7 @@ export const fetchSignUp = async (payload: SignUpDto) => {
     return { success: data.token };
   } catch (error) {
     if (error instanceof AxiosError) {
-      return { error: error.message };
+      return { error: error.response?.data.message || error.message };
     }
     console.error('Ошибка регистрации:', error);
     return { error: 'Ошибка регистрации' };
@@ -40,7 +40,7 @@ export const fetchSignIn = async (payload: SignInDto) => {
     return { success: data.token };
   } catch (error) {
     if (error instanceof AxiosError) {
-      return { error: error.message };
+      return { error: error.response?.data.message || error.message };
     }
     console.error('Ошибка входа:', error);
     return { error: 'Ошибка входа' };

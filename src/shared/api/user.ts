@@ -14,3 +14,17 @@ export const fetchCurrentUser = async () => {
     return { error: 'Ошибка получения текущего пользователя' };
   }
 };
+
+export const fetchDeleteUser = async () => {
+  try {
+    const { data } = await axiosClient.delete('/users/profile');
+    console.log(data);
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      console.log(error);
+      return { error: error.message };
+    }
+    console.error('Ошибка удаления аккаунта', error);
+    return { error: 'Ошибка удаления аккаунта' };
+  }
+};

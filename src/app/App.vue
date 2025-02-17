@@ -10,9 +10,6 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 onBeforeMount(async () => {
-  console.log('authStore.isAuth', authStore.isAuth);
-  console.log('authStore.isLoggedIn()', authStore.isLoggedIn());
-
   if (authStore.isAuth) {
     const responseCurrentUser = await fetchCurrentUser();
     if (responseCurrentUser.error) {
