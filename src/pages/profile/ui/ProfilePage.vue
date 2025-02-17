@@ -1,8 +1,28 @@
 <script setup lang="ts">
+import { fetchDeleteUser, logout } from '@/shared/api';
+import { useAuthStore } from '@/shared/models';
 import { useUserStore } from '@/shared/models/useUserStore';
 import AvatarUser from '@/shared/ui/AvatarUser.vue';
+import { onBeforeMount } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const userStore = useUserStore();
+const authStore = useAuthStore();
+
+const handleDelete = async () => {
+  await fetchDeleteUser();
+  userStore.setCurrentUser(null);
+  logout();
+  authStore.logout();
+  router.push('/');
+};
+
+onBeforeMount(() => {
+  if (!userStore.currentUser) {
+    router.push({ path: '/sign-in', query: { redirect: '/profile' } });
+  }
+});
 </script>
 
 <template>
@@ -20,6 +40,13 @@ const userStore = useUserStore();
         <p><b>Username:</b> {{ userStore.currentUser.username }}</p>
         <p><b>Age:</b> {{ userStore.currentUser.age }}</p>
       </div>
+
+      <button
+        class="text-red-500 decoration-dashed hover:text-red-300 focus:text-red-300 active:scale-95"
+        @click="handleDelete"
+      >
+        Удалить аккаунт
+      </button>
     </div>
 
     <div class="p-5 flex flex-row gap-5 rounded-2xl shadow-xl">
